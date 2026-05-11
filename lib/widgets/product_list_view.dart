@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ProductListView extends StatelessWidget {
-  final List<Map<String, String>> products;
-  final Function(int) onRemove;
+  final List<Map<String, dynamic>> products;
+  final Function(Map<String, dynamic>) onTap;
 
   const ProductListView({
     super.key,
     required this.products,
-    required this.onRemove,
+    required this.onTap,
   });
 
   @override
@@ -51,6 +51,7 @@ class ProductListView extends StatelessWidget {
                     return Card(
                       margin: const EdgeInsets.only(bottom: 8),
                       child: ListTile(
+                        onTap: () => onTap(product),
                         leading: CircleAvatar(
                           backgroundColor:
                               Theme.of(context).colorScheme.primaryContainer,
@@ -63,13 +64,14 @@ class ProductListView extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          product['name']!,
+                          product['name']?.toString() ?? '',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text('Quantity: ${product['quantity']}'),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete_outline, color: Colors.red),
-                          onPressed: () => onRemove(index),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: Colors.grey,
                         ),
                       ),
                     );
